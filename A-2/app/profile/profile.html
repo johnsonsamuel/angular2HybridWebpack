@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h1>{{title}}</h1>
+
+            <div class="center" style="padding-bottom:0px;">
+                <h3 class="sub-header"> <input type="text" id="search" name="search" ng-model="playlist.searchValue"> <input type="button" ng-click="getSpotifyList()" value="search">  </h3>
+                <div nav-menu ></div>
+                <div side-nav></div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Album name</th>
+                            <th>Spotify URL</th>
+                            <th>Album type</th>
+                            <th>Artists</th>
+                            <th>Album picture</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="album in playlist.myPlayList.items">
+                            <td>{{album.name}}</td>
+                            <td><a href="{{album.uri}}" target="_blank">{{album.uri}}</a></td>
+                            <td>{{album.album_type}}</td>
+                            <td ng-repeat="artist in album.artists">
+                                {{artist.name}}
+                            </td>
+                            <td>
+                                <div ng-repeat="image in album.images track by $index">
+                                    <span ng-if="$index === 1">  <img src="{{image.url}}"> </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+       </div>
+ </div>
+

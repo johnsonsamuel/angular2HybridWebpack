@@ -1,0 +1,19 @@
+<hr>
+<h1>Footer Component Header
+        <input type="text" [(ngModel)]="childTitle" />
+</h1>
+
+<hr>
+<footer-input [footerInputContent]="childTitle"></footer-input>
+<hr>
+<!--
+<footer-child [footerChildTitle]="childTitle" (notify)="onNotify($event)" (notifyMouseEvent)="onMouseOverNotify($event)"></footer-child>
+-->
+<footer-child [footerChildTitle]="childTitle" (notify)="onNotify($event)"></footer-child>
+<hr>
+<parent-selector></parent-selector>
+<hr>
+{{getFooterTitle()}}
+<hr>
+<user-details (userInfoChanged)="getUserInfo($event)"></user-details>
+<hr>

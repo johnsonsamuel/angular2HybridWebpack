@@ -1,0 +1,42 @@
+<div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div side-nav></div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div nav-menu ></div>
+
+                <h2 class="sub-header">  <footer></footer>Weather Listing for {{displaySearchText( listing.selectedState ) }}</h2>
+                <select class="form-control"  ng-model="listing.selectedState" ng-change="listing.fetchWeatherByState( listing.selectedState )">
+                    <option value="FL">Florida</option>
+                    <option value="CA">California</option>
+                    <option value="NY">New York</option>
+                    <option value="NJ">New Jersey</option>
+                </select>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+
+                            <th>City</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>zmw</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="data in listing.weather">
+                            <td>{{data.city}}</td>
+                            <td>{{data.country}}</td>
+                            <td>{{data.state}}</td>
+                            <td>{{data.zmw}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

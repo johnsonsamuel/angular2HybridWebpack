@@ -1,0 +1,128 @@
+System.register(['../util/tryCatch', '../util/errorObject', '../OuterSubscriber', '../util/subscribeToResult'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var __extends = (this && this.__extends) || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+    var tryCatch_1, errorObject_1, OuterSubscriber_1, subscribeToResult_1;
+    var AuditOperator, AuditSubscriber;
+    /**
+     * Ignores source values for a duration determined by another Observable, then
+     * emits the most recent value from the source Observable, then repeats this
+     * process.
+     *
+     * <span class="informal">It's like {@link auditTime}, but the silencing
+     * duration is determined by a second Observable.</span>
+     *
+     * <img src="./img/audit.png" width="100%">
+     *
+     * `audit` is similar to `throttle`, but emits the last value from the silenced
+     * time window, instead of the first value. `audit` emits the most recent value
+     * from the source Observable on the output Observable as soon as its internal
+     * timer becomes disabled, and ignores source values while the timer is enabled.
+     * Initially, the timer is disabled. As soon as the first source value arrives,
+     * the timer is enabled by calling the `durationSelector` function with the
+     * source value, which returns the "duration" Observable. When the duration
+     * Observable emits a value or completes, the timer is disabled, then the most
+     * recent source value is emitted on the output Observable, and this process
+     * repeats for the next source value.
+     *
+     * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+     * var clicks = Rx.Observable.fromEvent(document, 'click');
+     * var result = clicks.audit(ev => Rx.Observable.interval(1000));
+     * result.subscribe(x => console.log(x));
+     *
+     * @see {@link auditTime}
+     * @see {@link debounce}
+     * @see {@link delayWhen}
+     * @see {@link sample}
+     * @see {@link throttle}
+     *
+     * @param {function(value: T): Observable|Promise} durationSelector A function
+     * that receives a value from the source Observable, for computing the silencing
+     * duration, returned as an Observable or a Promise.
+     * @return {Observable<T>} An Observable that performs rate-limiting of
+     * emissions from the source Observable.
+     * @method audit
+     * @owner Observable
+     */
+    function audit(durationSelector) {
+        return this.lift(new AuditOperator(durationSelector));
+    }
+    exports_1("audit", audit);
+    return {
+        setters:[
+            function (tryCatch_1_1) {
+                tryCatch_1 = tryCatch_1_1;
+            },
+            function (errorObject_1_1) {
+                errorObject_1 = errorObject_1_1;
+            },
+            function (OuterSubscriber_1_1) {
+                OuterSubscriber_1 = OuterSubscriber_1_1;
+            },
+            function (subscribeToResult_1_1) {
+                subscribeToResult_1 = subscribeToResult_1_1;
+            }],
+        execute: function() {
+            AuditOperator = (function () {
+                function AuditOperator(durationSelector) {
+                    this.durationSelector = durationSelector;
+                }
+                AuditOperator.prototype.call = function (subscriber, source) {
+                    return source._subscribe(new AuditSubscriber(subscriber, this.durationSelector));
+                };
+                return AuditOperator;
+            }());
+            /**
+             * We need this JSDoc comment for affecting ESDoc.
+             * @ignore
+             * @extends {Ignored}
+             */
+            AuditSubscriber = (function (_super) {
+                __extends(AuditSubscriber, _super);
+                function AuditSubscriber(destination, durationSelector) {
+                    _super.call(this, destination);
+                    this.durationSelector = durationSelector;
+                    this.hasValue = false;
+                }
+                AuditSubscriber.prototype._next = function (value) {
+                    this.value = value;
+                    this.hasValue = true;
+                    if (!this.throttled) {
+                        var duration = tryCatch_1.tryCatch(this.durationSelector)(value);
+                        if (duration === errorObject_1.errorObject) {
+                            this.destination.error(errorObject_1.errorObject.e);
+                        }
+                        else {
+                            this.add(this.throttled = subscribeToResult_1.subscribeToResult(this, duration));
+                        }
+                    }
+                };
+                AuditSubscriber.prototype.clearThrottle = function () {
+                    var _a = this, value = _a.value, hasValue = _a.hasValue, throttled = _a.throttled;
+                    if (throttled) {
+                        this.remove(throttled);
+                        this.throttled = null;
+                        throttled.unsubscribe();
+                    }
+                    if (hasValue) {
+                        this.value = null;
+                        this.hasValue = false;
+                        this.destination.next(value);
+                    }
+                };
+                AuditSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex) {
+                    this.clearThrottle();
+                };
+                AuditSubscriber.prototype.notifyComplete = function () {
+                    this.clearThrottle();
+                };
+                return AuditSubscriber;
+            }(OuterSubscriber_1.OuterSubscriber));
+        }
+    }
+});
+//# sourceMappingURL=audit.js.map

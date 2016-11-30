@@ -13,7 +13,7 @@ var FooterService = (function () {
     function FooterService() {
     }
     FooterService.prototype.getFooterContent = function () {
-        return 'Hola! I am a service from Angular 2';
+        return 'Hola! I am footer service from Angular 2';
     };
     FooterService = __decorate([
         core_1.Injectable(), 

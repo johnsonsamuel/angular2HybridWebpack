@@ -36,7 +36,7 @@ var FooterChildComponent = (function () {
     FooterChildComponent = __decorate([
         core_1.Component({
             selector: 'footer-child',
-            template: "<h4>{{footerChildTitle}} \n<hr>\n<span (click)=\"onClick()\">Click</span>\n<hr>\n<div (mouseover)=\"onMouseOver()\">Mouse over me</div></h4>"
+            template: "<h4>{{footerChildTitle}} \n        <hr>\n        <span (click)=\"onClick()\">Click</span>\n        <hr>\n        <div (mouseover)=\"onMouseOver()\">Mouse over me</div></h4>"
         }), 
         __metadata('design:paramtypes', [])
     ], FooterChildComponent);

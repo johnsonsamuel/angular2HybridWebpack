@@ -3,11 +3,11 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 @Component({
     selector: 'footer-child',
     template: `<h4>{{footerChildTitle}} 
-<hr>
-<span (click)="onClick()">Click</span>
-<hr>
-<div (mouseover)="onMouseOver()">Mouse over me</div></h4>`
-})
+        <hr>
+        <span (click)="onClick()">Click</span>
+        <hr>
+        <div (mouseover)="onMouseOver()">Mouse over me</div></h4>`
+    })
 
 export class FooterChildComponent {
     @Input() footerChildTitle = 'hola';

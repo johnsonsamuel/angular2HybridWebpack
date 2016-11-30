@@ -20,7 +20,7 @@ var FooterInputComponent = (function () {
     FooterInputComponent = __decorate([
         core_1.Component({
             selector: 'footer-input',
-            template: "Test Value : {{footerInputContent}}"
+            template: "Test Value from Angular2 : {{footerInputContent}}"
         }), 
         __metadata('design:paramtypes', [])
     ], FooterInputComponent);
